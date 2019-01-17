@@ -432,7 +432,7 @@ namespace StudioCCS.libCCS
 			return true;
 		}
 		
-		/*
+		/**/
 		private const int MODEL_SUBTYPE_RIGID = 0x0;
 		private const int MODEL_SUBTYPE_DEFORM = 0x1;
 		private const int MODEL_SUBTYPE_MORPH = 0x2;
@@ -497,7 +497,7 @@ namespace StudioCCS.libCCS
 			}
 			return false;
 		}
-		*/
+		/**/
 		public override bool Read(BinaryReader bStream, int sectionSize)
 		{
 			Debug.WriteLine("Parsing CCSModel 0x{0:X} at 0x{1:X}", ObjectID, bStream.BaseStream.Position);
@@ -629,7 +629,7 @@ namespace StudioCCS.libCCS
 		
 		public string GetModelTypeStr()
 		{
-			/*
+			/**/
 			string modelTypeStr = "";
 			if(ModelType == 0 && SubModelCount == 0)
 			{
@@ -673,8 +673,8 @@ namespace StudioCCS.libCCS
 			}
 			
 			return modelTypeStr;
-			*/
-			string modelTypeStr = "";
+			/**/
+			/*string modelTypeStr = "";
 			if(ModelType == 0 && SubModelCount == 0)
 			{
 				modelTypeStr = "None";
@@ -715,7 +715,7 @@ namespace StudioCCS.libCCS
 			{
 				modelTypeStr = string.Format("Unknown Model Type: 0x{0:X}", ActualModelType);
 			}
-			return modelTypeStr;
+			return modelTypeStr;*/
 		}
 		
 		public override TreeNode ToNode()
@@ -1534,6 +1534,7 @@ namespace StudioCCS.libCCS
 							for(int v = 0; v < tmpSubModel.VertexCount; v++)
 							{
 								ModelVertex tmpVert = tmpSubModel.Vertices[v];
+                                
 								//Vector3 vPos = Vector3.TransformPosition(tmpVert.Position, finalMtx);
 								
 								/*
@@ -1544,37 +1545,55 @@ namespace StudioCCS.libCCS
 								*/
 								
 								Vector3 vPos = SoftSkinVertex(tmpVert);
-								//write Position
-								fStream.WriteLine(string.Format("v\t{0}\t{1}\t{2}", -vPos.X, vPos.Y, -vPos.Z));
-								//write texture coordinates
-								//TODO: CCSModel::DumpToObj() Export texture coordinates with material's texture coordinate offset.
-								CCSTexture tmpTexture = tmpSubModel.ParentTextureRef;
-								if(tmpTexture != null)
-								{
-									if(tmpTexture.TextureType == CCSTexture.CCS_TEXTURE_DXT1 || tmpTexture.TextureType == CCSTexture.CCS_TEXTURE_DXT5)
-									{
-										fStream.WriteLine(string.Format("vt\t{0}\t{1}", tmpVert.TexCoords.X, tmpVert.TexCoords.Y));
-									}
-									else
-									{
-										fStream.WriteLine(string.Format("vt\t{0}\t{1}", tmpVert.TexCoords.X, 1.0 - tmpVert.TexCoords.Y));
-									}
-								}
-								else
-								{
-									fStream.WriteLine(string.Format("vt\t{0}\t{1}", tmpVert.TexCoords.X, 1.0 - tmpVert.TexCoords.Y));
-								}
+                            /*
+               _subModel.Vertices[i].Color = Util.ReadVec4RGBA32(bStream);
+                                          */
+                           
+                            Vector4 VCol = tmpSubModel.Vertices[v].Color;
+                            
+                            //write Position
+                            fStream.WriteLine(string.Format("v\t{0}\t{1}\t{2}\t{3}\t{4}\t{5}", -vPos.X, vPos.Y, -vPos.Z, VCol.X, VCol.Y, VCol.Z));
 								
-								//write normal
-								fStream.WriteLine(string.Format("vn\t{0}\t{1}\t{2}", tmpVert.Normal.X, tmpVert.Normal.Y, tmpVert.Normal.Z));
+								
+								
 							}
-						/*	
-						}
-						*/
-						//bool writeNormals = true;
-						//Write triangles
-						for(int t = 0; t < tmpSubModel.TriangleCount; t++)
-						{
+                        for (int v = 0; v < tmpSubModel.VertexCount; v++)
+                        {
+                            ModelVertex tmpVert = tmpSubModel.Vertices[v];
+
+                            //write texture coordinates
+                            //TODO: CCSModel::DumpToObj() Export texture coordinates with material's texture coordinate offset.
+                            CCSTexture tmpTexture = tmpSubModel.ParentTextureRef;
+                            if (tmpTexture != null)
+                            {
+                                if (tmpTexture.TextureType == CCSTexture.CCS_TEXTURE_DXT1 || tmpTexture.TextureType == CCSTexture.CCS_TEXTURE_DXT5)
+                                {
+                                    fStream.WriteLine(string.Format("vt\t{0}\t{1}", tmpVert.TexCoords.X, tmpVert.TexCoords.Y));
+                                }
+                                else
+                                {
+                                    fStream.WriteLine(string.Format("vt\t{0}\t{1}", tmpVert.TexCoords.X, 1.0 - tmpVert.TexCoords.Y));
+                                }
+                            }
+                            else
+                            {
+                                fStream.WriteLine(string.Format("vt\t{0}\t{1}", tmpVert.TexCoords.X, 1.0 - tmpVert.TexCoords.Y));
+                            }
+                        }
+                            for (int v = 0; v < tmpSubModel.VertexCount; v++)
+                            {
+                                ModelVertex tmpVert2 = tmpSubModel.Vertices[v];
+
+                                //write normal
+                                fStream.WriteLine(string.Format("vn\t{0}\t{1}\t{2}", tmpVert2.Normal.X, tmpVert2.Normal.Y, tmpVert2.Normal.Z));
+                            }
+
+                        
+                            /**/
+                            //bool writeNormals = true;
+                            //Write triangles
+                            for (int t = 0; t < tmpSubModel.TriangleCount; t++)
+						    {
 							ModelTriangle tmpTri = tmpSubModel.Triangles[t];
 							//write triangle line
 							if(withNormals)
@@ -1585,7 +1604,7 @@ namespace StudioCCS.libCCS
 							{
 								fStream.WriteLine(string.Format("f {0}/{0}\t{1}/{1}\t{2}/{2}", tmpTri.ID1 + totalVertCount, tmpTri.ID2 + totalVertCount, tmpTri.ID3 + totalVertCount));
 							}
-						}
+						    }
 						
 						totalVertCount += tmpSubModel.VertexCount;
 					}

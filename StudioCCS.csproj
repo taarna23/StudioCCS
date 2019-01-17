@@ -64,6 +64,15 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Drawing" />
+    <Reference Include="System.IO, Version=2.6.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Bcl.1.1.10\lib\net40\System.IO.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime, Version=2.6.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Bcl.1.1.10\lib\net40\System.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks, Version=2.6.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Bcl.1.1.10\lib\net40\System.Threading.Tasks.dll</HintPath>
+    </Reference>
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq">
@@ -73,19 +82,27 @@
   <ItemGroup>
     <Compile Include="ArcBallCamera.cs" />
     <Compile Include="AxisMarker.cs" />
-    <Compile Include="frmEditBone.cs" />
+    <Compile Include="frmEditBone.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmEditBone.Designer.cs">
       <DependentUpon>frmEditBone.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmExportToObj.cs" />
+    <Compile Include="frmExportToObj.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmExportToObj.Designer.cs">
       <DependentUpon>frmExportToObj.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmInfo.cs" />
+    <Compile Include="frmInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmInfo.Designer.cs">
       <DependentUpon>frmInfo.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrmLoadScene.cs" />
+    <Compile Include="FrmLoadScene.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="FrmLoadScene.Designer.cs">
       <DependentUpon>FrmLoadScene.cs</DependentUpon>
     </Compile>
@@ -123,10 +140,14 @@
     <Compile Include="libCCS\IndexObject.cs" />
     <Compile Include="libCCS\Util.cs" />
     <Compile Include="TexturePreview.cs" />
-    <Compile Include="ViewportPicbox.cs" />
+    <Compile Include="ViewportPicbox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="WireHelper.cs" />
     <Compile Include="Logger.cs" />
-    <Compile Include="MainForm.cs" />
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
@@ -241,11 +262,11 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="data" />
-    <Folder Include="data\bin" />
-    <Folder Include="data\shaders" />
-    <Folder Include="libCCS" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
+  <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
+    <Error Condition="!Exists('packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
+    <Error Condition="Exists('packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
+  </Target>
 </Project>

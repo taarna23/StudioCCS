@@ -623,7 +623,8 @@ namespace StudioCCS.libCCS
 		{
 			FrameForward();
 			string outputFileName = System.IO.Path.Combine(outputPath, ParentFile.GetSubObjectName(ObjectID)) + ".smd";
-			using(var fs = new FileStream(outputFileName, FileMode.Truncate))
+            
+            using (var fs = new FileStream(outputFileName, FileMode.Create))
 			{
 				using(var outf = new StreamWriter(fs))
 				{
@@ -651,14 +652,20 @@ namespace StudioCCS.libCCS
 					outf.WriteLine("time 0");
 					for(int i = 0; i < NodeCount; i++)
 					{
-						//float rad = 0.0174533f;
-						//Vector3 bRot = Util.FixAxisRotation(BindRotations[i]);
+                        //
+                       // float rad = 0.0174533f;
+                        //
+                       // Vector3 bRot = Util.FixAxisRotation(BindRotations[i]);
 						string pStr = string.Format("{0} {1} {2}", BindPositions[i].X, BindPositions[i].Y, BindPositions[i].Z);
 						string rStr = string.Format("{0} {1} {2}", BindRotations[i].X, BindRotations[i].Y, -BindRotations[i].Z);
-						//string rStr = string.Format("{0} {1} {2}", bRot.X, bRot.Y, bRot.Z);
-						//string rStr = string.Format("{2} {1} {0}", -(BindRotations[i].X * rad), -(BindRotations[i].Y * rad), -(BindRotations[i].Z * rad));
-						//string pStr = "0.0 0.0 0.0";
-						//string rStr = "0.0 0.0 0.0";
+                        //
+                        //string rStr = string.Format("{0} {1} {2}", bRot.X, bRot.Y, bRot.Z);
+                        //
+                       // string rStr = string.Format("{2} {1} {0}", -(BindRotations[i].X * rad), -(BindRotations[i].Y * rad), -(BindRotations[i].Z * rad));
+                        //
+                        //string pStr = "0.0 0.0 0.0";
+                        //
+                        //string rStr = "0.0 0.0 0.0";
 						outf.WriteLine(string.Format("{0} {1} {2}", i, pStr, rStr));
 					}
 					
@@ -677,6 +684,7 @@ namespace StudioCCS.libCCS
 				}
 			}
 			/*
+              */
 			outputFileName = System.IO.Path.Combine(outputPath, ParentFile.GetSubObjectName(ObjectID)) + "_bind.smd";
 			Logger.LogInfo(string.Format("Dumping bind pose to {0} to {1}...\n", ParentFile.GetSubObjectName(ObjectID), outputFileName));
 			using(var fs = new FileStream(outputFileName, FileMode.OpenOrCreate))
@@ -705,7 +713,7 @@ namespace StudioCCS.libCCS
 					outf.WriteLine("end");
 				}
 			}
-			*/
+			/**/
 		}
 		
 		public int SearchNodeID(int _objectID)
