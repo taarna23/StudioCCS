@@ -76,7 +76,8 @@ namespace StudioCCS.libCCS
 
 		//Fields
 		public List<Controller> Controllers = new List<Controller>();
-		public List<AnimationFrame> Frames = new List<AnimationFrame>();
+        public List<Controller> FixedControllers = new List<Controller>();
+        public List<AnimationFrame> Frames = new List<AnimationFrame>();
 		public int FrameCount = 0;
 		public int PlaybackType = 0;
 		public int CurrentFrame = 0;
@@ -338,7 +339,30 @@ namespace StudioCCS.libCCS
 			
 		}
 		
-		public void DumpToText(StreamWriter outf)
+	public void DumpPreviewToSMD(string outputPath, bool withNormals)
+	{
+		int controllerCount = -1;
+		{
+			foreach (CCSAnime.Controller tmpController in this.Controllers)
+			{
+				controllerCount++;
+				tmpController.SetFrame(this.CurrentFrame);
+				CCSExt tmpExt = this.ParentFile.GetObject<CCSExt>(tmpController.ObjectID);
+				if (tmpExt != null)
+				{
+					CCSObject tmpObj = this.ParentFile.GetObject<CCSObject>(tmpExt.ReferencedObjectID);
+					if (tmpObj != null)
+					{
+						tmpObj.ParentClump.BindMatrixList();
+						CCSClump boundClump = tmpObj.ParentClump;
+							tmpObj.ParentClump.DumpToSMD(outputPath, withNormals, ParentFile.TextureList, controllerCount);
+					}
+				}
+			}
+		}
+	}
+
+		/*public void DumpToText(StreamWriter outf)
 		{
 			outf.WriteLine(ParentFile.GetSubObjectName(ObjectID));
 			outf.WriteLine(Controllers.Count.ToString());
@@ -346,7 +370,39 @@ namespace StudioCCS.libCCS
 			{
 				tmpController.DumpToText(outf);
 			}
-		}
+		}*/
 
+		public void DumpToText(StreamWriter outf)
+		{
+			string lastModelName = "";
+			string lastValue = "";
+			outf.WriteLine("\n\n" + this.ParentFile.GetSubObjectName(this.ObjectID));
+			outf.WriteLine(this.Controllers.Count.ToString());
+			outf.WriteLine("Frames: " + this.FrameCount.ToString());
+			checked
+			{
+				foreach (CCSAnime.Controller tmpController in this.Controllers)
+				{
+					lastModelName = "";
+					lastValue = "";
+					for (int i = 0; i < this.FrameCount; i++)
+					{
+						tmpController.SetFrame(i);
+						CCSExt tmpExt = this.ParentFile.GetObject<CCSExt>(tmpController.ObjectID);
+						bool flag = tmpExt != null;
+						if (flag)
+						{
+							CCSObject tmpObj = this.ParentFile.GetObject<CCSObject>(tmpExt.ReferencedObjectID);
+							bool flag2 = tmpObj != null;
+							if (flag2)
+							{
+								tmpObj.ParentClump.BindMatrixList();
+								tmpController.DumpToText(outf, ref lastModelName, ref lastValue, i);
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 }

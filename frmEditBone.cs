@@ -124,7 +124,7 @@ namespace StudioCCS
 		
 		void BtnUpdateClick(object sender, EventArgs e)
 		{
-			Single radTo = 0.0174533f;
+			//Single radTo = 0.0174533f;
 			bool result = true;
 			float[] vals = {0.0f, 0.0f, 0.0f,  0.0f, 0.0f, 0.0f,   0.0f, 0.0f, 0.0f};
 			for(int i = 0; i < TextBoxes.Count; i++)
@@ -148,7 +148,7 @@ namespace StudioCCS
 			if(result)
 			{
 				Vector3 tmpPos = new Vector3(vals[0], vals[1], vals[2]);
-				Vector3 tmpRot = new Vector3(vals[3] * radTo, vals[4] * radTo, vals[5] * radTo);
+				Vector3 tmpRot = new Vector3(Util.toRads(vals[3]), Util.toRads(vals[4]), Util.toRads(vals[5]));
 				Vector3 tmpScale= new Vector3(vals[6], vals[7], vals[8]);
 				
 				if(OperatingObject != null)

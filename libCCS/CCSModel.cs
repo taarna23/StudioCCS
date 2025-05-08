@@ -996,14 +996,14 @@ namespace StudioCCS.libCCS
 				// Can we derive proper order from normal direction? Probably not.
 				if(triFlag == 0)
 				{
-					if((sCount % 2) == 0)
-					{
+					//if((sCount % 2) == 0)
+					//{
 						_subModel.Triangles[tCount] = new ModelTriangle(i, i - 1, i - 2);	
-					}
-					else
-					{
-						_subModel.Triangles[tCount] = new ModelTriangle(i - 2, i - 1, i);	
-					}
+					//}
+					//else
+					//{
+					//	_subModel.Triangles[tCount] = new ModelTriangle(i - 2, i - 1, i);	
+					//}
 					
 					tCount += 1;
 					sCount += 1;
@@ -1111,14 +1111,14 @@ namespace StudioCCS.libCCS
 				byte triFlag = bStream.ReadByte();
 				if(triFlag == 0)
 				{
-					if((sCount % 2) == 0)
-					{
+					//if((sCount % 2) == 0)
+					//{
 						_subModel.Triangles[tCount] = new ModelTriangle(i, i - 1, i - 2);	
-					}
-					else
-					{
-						_subModel.Triangles[tCount] = new ModelTriangle(i - 2, i - 1, i);	
-					}
+					//}
+					//else
+					//{
+					//	_subModel.Triangles[tCount] = new ModelTriangle(i - 2, i - 1, i);	
+					//}
 					
 					tCount += 1;
 					sCount += 1;
@@ -1216,14 +1216,14 @@ namespace StudioCCS.libCCS
 				byte triFlag = bStream.ReadByte();
 				if(triFlag == 0)
 				{
-					if((sCount % 2) == 0)
-					{
+					//if((sCount % 2) == 0)
+					//{
 						_subModel.Triangles[tCount] = new ModelTriangle(i, i - 1, i - 2);	
-					}
-					else
-					{
+					//}
+					//else
+					//{
 						_subModel.Triangles[tCount] = new ModelTriangle(i - 2, i - 1, i);	
-					}
+					//}
 					
 					tCount += 1;
 					sCount += 1;

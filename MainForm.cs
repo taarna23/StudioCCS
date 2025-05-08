@@ -621,10 +621,27 @@ namespace StudioCCS
 			}
 		}
 
-		#endregion
-		
-		
-		#endregion
 
-	}
+        #endregion
+
+        #endregion
+
+        private void dumpPreviewToSMDToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var vfd = new frmExportToOBJ())
+            {
+                vfd.chkSplitCollision.Enabled = false;
+                vfd.chkSplitSubModels.Enabled = false;
+                vfd.chkExportCollision.Enabled = false;
+                vfd.chkExportDummies.Enabled = false;
+                vfd.Text = "Export to SMD...";
+                DialogResult result = vfd.ShowDialog();
+                if (result == DialogResult.OK)
+                {
+                    string savePath = vfd.txtExportPath.Text;
+                    Scene.DumpPreviewToSMD(savePath, vfd.chkModelWithNormals.Checked);
+                }
+            }
+        }
+    }
 }

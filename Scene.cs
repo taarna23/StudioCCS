@@ -827,8 +827,36 @@ namespace StudioCCS
 				tmpCCS.DumpToSMD(outputPath, withNormals);
 			}
 		}
-		
-		public static void AddAnime(CCSAnime anime)
+
+		public static void DumpPreviewToSMD(string outputPath, bool withNormals)
+		{
+			if (Scene.SelectedPreviewItemTag.ObjectType == CCSFile.SECTION_ANIME)
+			{
+				CCSAnime tmpAnime = Scene.SelectedPreviewItemTag.File.GetObject<CCSAnime>(Scene.SelectedPreviewItemTag.ObjectID);
+				if (tmpAnime != null)
+				{
+					string filename = Scene.SelectedPreviewItemTag.File.GetSubObjectName(Scene.SelectedPreviewItemTag.ObjectID);
+                    string fullPath = Path.Combine(outputPath, filename);
+
+					if (!Directory.Exists(fullPath))
+					{
+						if (File.Exists(fullPath))
+						{
+							Logger.LogError(string.Format("Error, Cannot dump CCS File, {0} exists as file", filename));
+							return;
+						}
+						else
+						{
+							Directory.CreateDirectory(fullPath);
+						}
+
+						tmpAnime.DumpPreviewToSMD(fullPath, withNormals);
+					}
+				}
+			}
+		}
+
+        public static void AddAnime(CCSAnime anime)
 		{
 			for(int i = 0; i < ActiveAnimes.Count; i++)
 			{
