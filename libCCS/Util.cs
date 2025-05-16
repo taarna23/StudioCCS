@@ -46,13 +46,13 @@ namespace StudioCCS.libCCS
 		{
             //return input;
             //Works pretty good:
-            //return new Vector3(input.Z, -input.Y, input.X);
-            
-			//return new Vector3(input.X, input.Y, input.Z);
-            return new Vector3(input.Z, input.Y, input.X);
+            return new Vector3(input.Z, -input.Y, input.X);
+
+            //return new Vector3(input.X, input.Y, input.Z);
+            //return new Vector3(input.Z, input.Y, input.X);
         }
-		
-		public static Vector3 UnFixAxisRotation(Vector3 input)
+
+        public static Vector3 UnFixAxisRotation(Vector3 input)
 		{
 			return new Vector3(input.X, -input.Y, input.Z);
 		}
@@ -82,7 +82,8 @@ namespace StudioCCS.libCCS
 			float pZ = bStream.ReadSingle() * scaleVar;
 			
 			return FixAxis(new Vector3(pX * CCS_GLOBAL_SCALE, pY * CCS_GLOBAL_SCALE, pZ * CCS_GLOBAL_SCALE));
-		}
+            //return FixAxis(new Vector3(-pX * CCS_GLOBAL_SCALE, pZ * CCS_GLOBAL_SCALE, pY * CCS_GLOBAL_SCALE));
+        }
 		
 		public static Vector3 ReadVec3Half(BinaryReader bStream, float scale)
 		{
@@ -109,7 +110,7 @@ namespace StudioCCS.libCCS
 			float pi = 3.141592653589793f;
 			float toRads = pi / 180.0f;
 			//return new Vector3(rX * toRads, rY * toRads, rZ * toRads); //FixAxis(new Vector3(rX, rY, rZ));
-			return FixAxisRotation(new Vector3(rX * toRads, rY * toRads, rZ * toRads));
+			return FixAxisRotation(new Vector3(Util.toRads(rX), Util.toRads(rY), Util.toRads(rZ)));
 		}
 		
 		public static Vector3 ReadVec3Scale(BinaryReader bStream)

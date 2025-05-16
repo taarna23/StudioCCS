@@ -924,18 +924,6 @@ namespace StudioCCS.libCCS
                 if (TrackType == CCS_ANIME_CONTROLLER_TYPE_FIXED)
                 {
                     FixedValue.Read(bStream, 0);
-                    KeyCount = frameCount;
-                    var tmpKey = new Vec3Key_Rotation();
-                    Debug.WriteLine("Fixed Rotation: " + Util.toDeg(FixedValue.Value().X) + ", " + Util.toDeg(FixedValue.Value().Y) + ", " + Util.toDeg(FixedValue.Value().Z));
-                    for (int i = 0; i < frameCount; i++)
-                    {
-                        tmpKey = FixedValue;
-                        Keys.Add(tmpKey);
-                    }
-                    int LastKeyID = KeyCount - 1;
-                    Keys[LastKeyID].SetFrameCount(frameCount - 1);
-                    int FinalKeyID = Keys.Count - 1;
-                    Keys[FinalKeyID].SetFrameCount(frameCount - 1);
                 }
                 else if (TrackType == CCS_ANIME_CONTROLLER_TYPE_ANIMATED)
                 {
@@ -943,7 +931,7 @@ namespace StudioCCS.libCCS
                     for (int i = 0; i < KeyCount; i++)
                     {
                         int frameNum = bStream.ReadInt32();
-                        Debug.WriteLine("\t\tReading Rotation Track Key {0} of {1}, Frame: {2}", i, KeyCount, frameNum);
+                        //Debug.WriteLine("\t\tReading Rotation Track Key {0} of {1}, Frame: {2}", i, KeyCount, frameNum);
                         var tmpKey = new Vec3Key_Rotation();
                         tmpKey.Read(bStream, frameNum);
                         //Debug.WriteLine("Rotation: " + Util.toDeg(tmpKey.Value().X) + ", " + Util.toDeg(tmpKey.Value().Y) + ", " + Util.toDeg(tmpKey.Value().Z));
@@ -1012,7 +1000,7 @@ namespace StudioCCS.libCCS
 
                 Vector3 temp2 = new Vector3(1, 1, 1);
                 temp2.X = CurrentValue.Value().X;
-                temp2.Y = CurrentValue.Value().Y;
+                temp2.Y = -CurrentValue.Value().Y;
                 temp2.Z = CurrentValue.Value().Z;
                 if (((Math.Abs(CurrentValue.Value().Z) > 2.85 && Math.Abs(CurrentValue.Value().Z) < 3.15) &&
                 (int)Math.Abs(CurrentValue.Value().X) == 1) ||
@@ -1043,10 +1031,11 @@ namespace StudioCCS.libCCS
                         //temp2.Z = Util.toRads(0);
                         //temp2.Y -= Util.toRads(90);
                         //temp2.Y -= Util.toRads(90);
-                        temp2.X += Util.toRads(90);
-                        temp2.Z -= Util.toRads(90);
+                        //temp2.X += Util.toRads(90);
+                        //temp2.Z -= Util.toRads(90);
                         //temp2.Z = -temp2.Z;
                         //temp2.X = -temp2.X;
+                        //temp2.Y = -temp2.Y;
                         break;
                     case "OBJ_t0 pelvis":
                         //temp2.X = -temp2.X;/**/
@@ -1055,31 +1044,31 @@ namespace StudioCCS.libCCS
                         break;
                     case "OBJ_t0 footsteps":
                         //temp2.X = -temp2.X;/**/
-                        temp2.Y = -temp2.Y;/**/
+                        //temp2.Y = -temp2.Y;/**/
                         //temp2.Z = -temp2.Z;
                         break;
                     case "OBJ_t0 spine":
                         //temp2.X = -temp2.X;/**/
-                        temp2.Y = -temp2.Y;/**/
+                        //temp2.Y = -temp2.Y;/**/
                         //temp2.Z = -temp2.Z;
                         break;
                     case "OBJ_t0 spine1":
                         //temp2.X = -temp2.X;/**/
-                        temp2.Y = -temp2.Y;/**/
+                        //temp2.Y = -temp2.Y;/**/
                         //temp2.Z = -temp2.Z;
                         break;
                     case "OBJ_t0 neck":
                         //temp2.X = -temp2.X;/**/
-                        temp2.Y = -temp2.Y;/**/
+                        //temp2.Y = -temp2.Y;/**/
                         //temp2.Z = -temp2.Z;
                         break;
                     case "OBJ_t0 head":
                         //temp2.X = -temp2.X;/**/
-                        temp2.Y = -temp2.Y;/**/
+                        //temp2.Y = -temp2.Y;/**/
                         //temp2.Z = -temp2.Z;
                         break;
                     case "OBJ_t0 r clavicle":
-                        temp2.X = -temp2.X;/**/
+                        //temp2.X = -temp2.X;/**/
                         //temp2.Y = -temp2.Y;/**/
                         //temp2.Z = -temp2.Z;
                         break;
@@ -1090,17 +1079,19 @@ namespace StudioCCS.libCCS
                         break;
                     case "OBJ_t0 r upperarm":
                         //temp2.X = -temp2.X;/**/
-                        temp2.Y = -temp2.Y;/**/
+                        //temp2.Y = -temp2.Y;/**/
                         //temp2.Z = -temp2.Z;
                         break;
                     case "OBJ_t0 l upperarm":
                         //temp2.X = -temp2.X;
                         //temp2.Y = -temp2.Y;/**/
                         //temp2.Z = -temp2.Z;/**/
+                        //temp2.Z = Math.Sign(temp2.Z) == -1 ? Util.toRads(0 + Math.Abs(Util.toDeg(temp2.Z))) : Util.toRads(0 - Math.Abs(Util.toDeg(temp2.Z)));
                         break;
                     case "OBJ_t0 r forearm":
                         //temp2.X = -temp2.X;/**/
-                        temp2.Y = -temp2.Y;/**/
+                        //temp2.X -= Util.toRads(45);
+                        //temp2.Y = -temp2.Y;/**/
                         //temp2.Z = -temp2.Z;
                         break;
                     case "OBJ_t0 l forearm":
@@ -1110,7 +1101,7 @@ namespace StudioCCS.libCCS
                         break;
                     case "OBJ_t0 r hand":
                         //temp2.X = -temp2.X;/**/
-                        temp2.Y = -temp2.Y;/**/
+                        //temp2.Y = -temp2.Y;/**/
                         //temp2.Z = -temp2.Z;
                         break;
                     case "OBJ_t0 l hand":
@@ -1120,13 +1111,150 @@ namespace StudioCCS.libCCS
                         break;
                     case "OBJ_t0 r finger0":
                         //temp2.X = -temp2.X;/**/
-                        temp2.Y = -temp2.Y;/**/
+                        //temp2.Y = -temp2.Y;/**/
                         //temp2.Z = -temp2.Z;
                         break;
                     case "OBJ_t0 l finger0":
                         //temp2.X = -temp2.X;
                         //temp2.Y = -temp2.Y;/**/
                         //temp2.Z = -temp2.Z;/**/
+                        break;
+                    case "OBJ_t0 r thigh":
+                        //temp2.Y = -temp2.Y;
+                        //temp2.X = Math.Sign(temp2.X) == -1 ? Util.toRads(0 + Math.Abs(Util.toDeg(temp2.X))) : Util.toRads(0 + Math.Abs(Util.toDeg(temp2.X)) * -1);
+                        //temp2.X = -temp2.X;
+                        //temp2.Z = -temp2.Z;
+                        break;
+                    case "OBJ_t0 l thigh":
+                        //temp2.Z = -temp2.Z;
+                        //temp2.X = Math.Sign(temp2.X) == -1 ? Util.toRads(0 + Math.Abs(Util.toDeg(temp2.X))) : Util.toRads(0 + Math.Abs(Util.toDeg(temp2.X)) * -1);
+                        //temp2.X = -temp2.X;
+                        //temp2.Y = -temp2.Y;
+                        break;
+                    case "OBJ_t0 r calf":
+                        //temp2.Y = -temp2.Y;
+                        //temp2.X = -temp2.X;
+                        //temp2.Z = -temp2.Z;
+                        break;
+                    case "OBJ_t0 l calf":
+                        //temp2.Z = -temp2.Z;
+                        //temp2.X = -temp2.X;
+                        //temp2.Y = -temp2.Y;
+                        break;
+                    case "OBJ_t0 r foot":
+                        //temp2.Y = -temp2.Y;
+                        //temp2.X = -temp2.X;
+                        //temp2.Z = -temp2.Z;
+                        break;
+                    case "OBJ_t0 l foot":
+                        //temp2.Z = -temp2.Z;
+                        //temp2.X = -temp2.X;
+                        //temp2.Y = -temp2.Y;
+                        break;
+                    case "OBJ_t0 r belt1":
+                        //temp2.Y = -temp2.Y;
+                        break;
+                    case "OBJ_t0 l belt1":
+                        //temp2.Y = -temp2.Y;
+                        break;
+
+                        /*case "OBJ_trall":
+                            //temp2.X = Util.toRads(0);
+                            //temp2.Y = Util.toRads(0);
+                            //temp2.Z = Util.toRads(0);
+                            //temp2.Z = -temp2.Z;
+                            break;
+                        case "OBJ_t0":
+                            //temp2.X = Util.toRads(180);
+                            //temp2.Y = Util.toRads(90);
+                            //temp2.Z = Util.toRads(0);
+                            //temp2.Y -= Util.toRads(90);
+                            //temp2.Y -= Util.toRads(90);
+                            //temp2.X += Util.toRads(90);
+                            //temp2.Z -= Util.toRads(90);
+                            //temp2.Z = -temp2.Z;
+                            //temp2.X = -temp2.X;
+                            break;
+                        case "OBJ_t0 pelvis":
+                            //temp2.X = -temp2.X;//
+                        temp2.Y = -temp2.Y;//
+                        //temp2.Z = -temp2.Z;
+                        break;
+                    case "OBJ_t0 footsteps":
+                        //temp2.X = -temp2.X;//
+                        temp2.Y = -temp2.Y;//
+                        //temp2.Z = -temp2.Z;
+                        break;
+                    case "OBJ_t0 spine":
+                        //temp2.X = -temp2.X;//
+                        temp2.Y = -temp2.Y;//
+                        //temp2.Z = -temp2.Z;
+                        break;
+                    case "OBJ_t0 spine1":
+                        //temp2.X = -temp2.X;//
+                        temp2.Y = -temp2.Y;//
+                        //temp2.Z = -temp2.Z;
+                        break;
+                    case "OBJ_t0 neck":
+                        //temp2.X = -temp2.X;//
+                        temp2.Y = -temp2.Y;//
+                        //temp2.Z = -temp2.Z;
+                        break;
+                    case "OBJ_t0 head":
+                        //temp2.X = -temp2.X;//
+                        temp2.Y = -temp2.Y;//
+                        //temp2.Z = -temp2.Z;
+                        break;
+                    case "OBJ_t0 r clavicle":
+                        //temp2.X = -temp2.X;//
+                        //temp2.Y = -temp2.Y;//
+                        //temp2.Z = -temp2.Z;
+                        break;
+                    case "OBJ_t0 l clavicle":
+                        //temp2.X = -temp2.X;
+                        //temp2.Y = -temp2.Y;//
+                        //temp2.Z = -temp2.Z;//
+                        break;
+                    case "OBJ_t0 r upperarm":
+                        //temp2.X = -temp2.X;//
+                        //temp2.Y = -temp2.Y;//
+                        temp2.Z = -temp2.Z;
+                        break;
+                    case "OBJ_t0 l upperarm":
+                        //temp2.X = -temp2.X;
+                        //temp2.Y = -temp2.Y;//
+                        //temp2.Z = -temp2.Z;//
+                        break;
+                    case "OBJ_t0 r forearm":
+                        //temp2.X = -temp2.X;//
+                        //temp2.X -= Util.toRads(45);
+                        temp2.Y = -temp2.Y;//
+                        temp2.Z = -temp2.Z;
+                        break;
+                    case "OBJ_t0 l forearm":
+                        //temp2.X = -temp2.X;
+                        //temp2.Y = -temp2.Y;//
+                        //temp2.Z = -temp2.Z;//
+                        break;
+                    case "OBJ_t0 r hand":
+                        //temp2.X = -temp2.X;//
+                        //temp2.Y = -temp2.Y;//
+                        //temp2.Z = -temp2.Z;
+                        break;
+                    case "OBJ_t0 l hand":
+                        //temp2.X = -temp2.X;
+                        //temp2.Y = -temp2.Y;//
+                        //temp2.Z = -temp2.Z;//
+                        break;
+                    case "OBJ_t0 r finger0":
+                        //temp2.X = -temp2.X;//
+                        //temp2.Y = -temp2.Y;//
+                        //temp2.Z = -temp2.Z;
+                        break;
+                    case "OBJ_t0 l finger0":
+                        //temp2.X = -temp2.X;
+                        //temp2.Y = -temp2.Y;//
+                        //temp2.Z = -temp2.Z;//
                         break;
                     case "OBJ_t0 r thigh":
                         temp2.Y = -temp2.Y;
@@ -1163,7 +1291,8 @@ namespace StudioCCS.libCCS
                         break;
                     case "OBJ_t0 l belt1":
                         temp2.Y = -temp2.Y;
-                        break;
+                        break;*/
+
                 }
 
                 float range;
@@ -1293,18 +1422,6 @@ namespace StudioCCS.libCCS
                 if (TrackType == CCS_ANIME_CONTROLLER_TYPE_FIXED)
                 {
                     FixedValue.Read(bStream, 0);
-                    KeyCount = frameCount;
-                    var tmpKey = new Vec3Key_Position();
-                    Debug.WriteLine("Fixed Position: " + FixedValue.Value().X + ", " + FixedValue.Value().Y + ", " + FixedValue.Value().Z);
-                    for (int i = 0; i < frameCount; i++)
-                    {
-                        tmpKey = FixedValue;
-                        Keys.Add(tmpKey);
-                    }
-                    int LastKeyID = KeyCount - 1;
-                    Keys[LastKeyID].SetFrameCount(frameCount - 1);
-                    int FinalKeyID = Keys.Count - 1;
-                    Keys[FinalKeyID].SetFrameCount(frameCount - 1);
                 }
                 else if (TrackType == CCS_ANIME_CONTROLLER_TYPE_ANIMATED)
                 {
@@ -1450,18 +1567,6 @@ namespace StudioCCS.libCCS
                 if (TrackType == CCS_ANIME_CONTROLLER_TYPE_FIXED)
                 {
                     FixedValue.Read(bStream, 0);
-                    KeyCount = frameCount;
-                    var tmpKey = new Vec3Key_Scale();
-                    Debug.WriteLine("Fixed Scale: " + FixedValue.Value().X + ", " + FixedValue.Value().Y + ", " + FixedValue.Value().Z);
-                    for (int i = 0; i < frameCount; i++)
-                    {
-                        tmpKey = FixedValue;
-                        Keys.Add(tmpKey);
-                    }
-                    int LastKeyID = KeyCount - 1;
-                    Keys[LastKeyID].SetFrameCount(frameCount - 1);
-                    int FinalKeyID = Keys.Count - 1;
-                    Keys[FinalKeyID].SetFrameCount(frameCount - 1);
                 }
                 else if (TrackType == CCS_ANIME_CONTROLLER_TYPE_ANIMATED)
                 {
@@ -1526,13 +1631,13 @@ namespace StudioCCS.libCCS
                 (int)Math.Abs(temp.X) == 1) ||
                 ((int)Math.Abs(temp.Z) == 2 && (int)Math.Abs(temp.X) == 1))
                 {
-                    //temp.Y = -temp.Y;
-                    temp.X = -temp.X;
+                    temp.Y = -temp.Y;
+                    //temp.X = -temp.X;
                 }
                 if (((Math.Round(Math.Abs(rotation.Z), 1) == 1.5) || Math.Round(Math.Abs(rotation.Z), 1) == 1.6) && filename.Contains("OBJ_w"))
                 {
-                    //temp.Y = -temp.Y;
-                    temp.X = -temp.X;
+                    temp.Y = -temp.Y;
+                    //temp.X = -temp.X;
                 }
 
                 Vector3 temp2 = Vector3.Zero;
@@ -1556,6 +1661,16 @@ namespace StudioCCS.libCCS
 
                 switch (filename)
                 {
+                    case "OBJ_t0 r thigh":
+                        //temp2.Y = -temp2.Y;
+                        //temp2.X = -temp2.X;
+                        //temp2.Z = -temp2.Z;
+                        break;
+                    case "OBJ_t0 l thigh":
+                        //temp2.Z = -temp2.Z;
+                        //temp2.X = -temp2.X;
+                        //temp2.Y = -temp2.Y;
+                        break;
                     case "OBJ_t0 r clavicle":
                         //temp2.X = -temp2.X;/**/
                         //temp2.Y = -temp2.Y;/**/
@@ -1604,6 +1719,12 @@ namespace StudioCCS.libCCS
                         //temp2.Z = -temp2.Z;/**/
                         //temp2.X += Util.toRads(90f);
                         break;
+                    case "OBJ_t0 spine 1":
+                        //temp2.X = -temp2.X;
+                        //temp2.Y = -temp2.Y;/**/
+                        //temp2.Z = -temp2.Z;/**/
+                        //temp2.X += Util.toRads(90f);
+                        break;
                 }
 
                 float range = 1.0f / (CurrentValue.GetFrameCount() - CurrentValue.FrameNumber());
@@ -1612,7 +1733,7 @@ namespace StudioCCS.libCCS
                 //return CurrentValue.Value();
                 //return Vector3.Lerp(CurrentValue.Value(), NextValue.Value(), range * percent);
                 //return Vector3.Lerp(temp, temp2, range * percent);
-                if (temp2 == Vector3.Zero)
+                if (Keys.Count == 1)
                 {
                     return temp;
                 }

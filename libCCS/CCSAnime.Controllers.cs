@@ -175,14 +175,16 @@ namespace StudioCCS.libCCS
 								outf.WriteLine(this.ParentFile.GetSubObjectName(tmpObj.ModelID));
 							}
 							lastModelName = currModelName;
-							Vector3 tmpP = this.PositionTrack.GetValue(frame).Value();
-							Vector3 tmpR = this.RotationTrack.GetValue(frame).Value();
-							Vector3 tmpS = this.ScaleTrack.GetValue(frame).Value();
+							
+							Vector3 tmpR = this.RotationTrack.GetInterpolatedValue(frame, this.ParentFile.GetSubObjectName(tmpObj.ModelID));
+                            Vector3 tmpP = this.PositionTrack.GetInterpolatedValue(frame, tmpR, this.ParentFile.GetSubObjectName(tmpObj.ModelID));
+                            Vector3 tmpS = this.ScaleTrack.GetInterpolatedValue(frame, tmpP, tmpR, this.ParentFile.GetSubObjectName(tmpObj.ModelID));
 							string fmtStr = "pos: {0}   rot: {1}   scl: {2}";
 							string fmtStr2 = "{0} {1} {2}";
 							string pStr = string.Format(fmtStr2, tmpP.X, tmpP.Y, tmpP.Z);
 							string rStr = string.Format(fmtStr2, Util.toDeg(tmpR.X), Util.toDeg(tmpR.Y), Util.toDeg(tmpR.Z));
-							string sStr = string.Format(fmtStr2, tmpS.X, tmpS.Y, tmpS.Z);
+                            //string rStr = string.Format(fmtStr2, tmpR.X, tmpR.Y, tmpR.Z);
+                            string sStr = string.Format(fmtStr2, tmpS.X, tmpS.Y, tmpS.Z);
 							string currStr = string.Format(fmtStr, pStr, rStr, sStr);
 							outf.WriteLine(currStr);
 							lastValue = currStr;
@@ -340,14 +342,16 @@ namespace StudioCCS.libCCS
 						if (flag3)
 						{
 							outf.WriteLine(this.ParentFile.GetSubObjectName(tmpObj.ModelID));
-							Vector3 tmpP = this.PositionTrack.GetValue(0).Value();
-							Vector3 tmpR = this.RotationTrack.GetValue(0).Value();
-							Vector3 tmpS = this.ScaleTrack.GetValue(0).Value();
-							string fmtStr = "{0} {1} {2}";
-							string pStr = string.Format(fmtStr, tmpP.X, tmpP.Y, tmpP.Z);
-							string rStr = string.Format(fmtStr, tmpR.X, tmpR.Y, tmpR.Z);
-							string sStr = string.Format(fmtStr, tmpS.X, tmpS.Y, tmpS.Z);
-							outf.WriteLine(string.Format(fmtStr, pStr, rStr, sStr));
+							Vector3 tmpP = this.PositionTrack.GetValue(f).Value();
+							Vector3 tmpR = this.RotationTrack.GetValue(f).Value();
+							Vector3 tmpS = this.ScaleTrack.GetValue(f).Value();
+							string fmtStr = "{0},  {1},  {2}";
+                            string fmtStr2 = "Pos: {0}    Rot: {1}    Scl: {2}";
+                            string pStr = string.Format(fmtStr, tmpP.X, tmpP.Y, tmpP.Z);
+							//string rStr = string.Format(fmtStr, Util.toDeg(tmpR.X), Util.toDeg(tmpR.Y), Util.toDeg(tmpR.Z));
+                            string rStr = string.Format(fmtStr, tmpR.X, tmpR.Y, tmpR.Z);
+                            string sStr = string.Format(fmtStr, tmpS.X, tmpS.Y, tmpS.Z);
+							outf.WriteLine(string.Format(fmtStr2, pStr, rStr, sStr));
 						}
 					}
 				}

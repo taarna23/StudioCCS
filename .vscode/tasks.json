@@ -1,0 +1,55 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+	  {
+		"label": "build",
+		"command": "dotnet",
+		"type": "process",
+		"args": [
+		  "build",
+		  "${workspaceFolder}/StudioCCS.csproj",
+		  "/property:GenerateFullPaths=true",
+		  "/consoleloggerparameters:NoSummary"
+		],
+		"problemMatcher": "$msCompile"
+	  },
+	  {
+		"label": "publish",
+		"command": "dotnet",
+		"type": "process",
+		"args": [
+		  "publish",
+		  "${workspaceFolder}/StudioCCS.csproj",
+		  "/property:GenerateFullPaths=true",
+		  "/consoleloggerparameters:NoSummary"
+		],
+		"problemMatcher": "$msCompile"
+	  },
+	  {
+		"label": "watch",
+		"command": "dotnet",
+		"type": "process",
+		"args": [
+		  "watch",
+		  "run",
+		  "--project",
+		  "${workspaceFolder}/StudioCCS.csproj"
+		],
+		"problemMatcher": "$msCompile"
+	  },
+	  {
+		"label": "test",
+		"command": "dotnet",
+		"type": "process",
+		"args": ["test", "${workspaceFolder}/StudioCCS.csproj"],
+		"problemMatcher": "$msCompile"
+	  },
+	  {
+		"label": "make this work",
+		"dependsOn": ["build", "test"],
+		"problemMatcher": "$msCompile"
+	  }
+	]
+  }
+  
+  
