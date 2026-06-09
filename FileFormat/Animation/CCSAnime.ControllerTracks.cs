@@ -980,213 +980,20 @@ public partial class CCSAnime : CCSBaseObject
             }
             var NextValue = GetValue(NextKey);
 
-            Vector3 temp = new Vector3(1, 1, 1);
-            temp.X = CurrentValue.Value().X;
-            temp.Y = CurrentValue.Value().Y;
-            temp.Z = CurrentValue.Value().Z;
-            if (((Math.Abs(CurrentValue.Value().Z) > 2.85 && Math.Abs(CurrentValue.Value().Z) < 3.15) &&
-            (int)Math.Abs(CurrentValue.Value().X) == 1) ||
-            ((int)Math.Abs(CurrentValue.Value().Z) == 2 && (int)Math.Abs(CurrentValue.Value().X) == 1))
-            {
-                temp.Y = -temp.Y;
-                temp.X = -temp.X;
-            }
-            if (((Math.Round(Math.Abs(CurrentValue.Value().Z), 1) == 1.5) || Math.Round(Math.Abs(CurrentValue.Value().Z), 1) == 1.6))
-            {
-                //temp.Y = -temp.Y;
-                temp.X = -temp.X;
-            }
+            Vector3 singleFrame = new Vector3(1, 1, 1);
+            singleFrame.X = CurrentValue.Value().X;
+            singleFrame.Y = CurrentValue.Value().Y;
+            singleFrame.Z = CurrentValue.Value().Z;
 
-            Vector3 temp2 = new Vector3(1, 1, 1);
-            temp2.X = CurrentValue.Value().X;
-            temp2.Y = -CurrentValue.Value().Y;
-            temp2.Z = CurrentValue.Value().Z;
+            Vector3 animFrameCurrent = new Vector3(1, 1, 1);
+            animFrameCurrent.X = CurrentValue.Value().X;
+            animFrameCurrent.Y = CurrentValue.Value().Y;
+            animFrameCurrent.Z = CurrentValue.Value().Z;
 
-            Vector3 temp2next = new Vector3(1, 1, 1);
-            temp2next.X = NextValue.Value().X;
-            temp2next.Y = -NextValue.Value().Y;
-            temp2next.Z = NextValue.Value().Z;
-
-            if (((Math.Abs(CurrentValue.Value().Z) > 2.85 && Math.Abs(CurrentValue.Value().Z) < 3.15) &&
-            (int)Math.Abs(CurrentValue.Value().X) == 1) ||
-            ((int)Math.Abs(CurrentValue.Value().Z) == 2 && (int)Math.Abs(CurrentValue.Value().X) == 1))
-            {
-                //temp2.Y = -temp2.Y;
-                //temp2.X = -temp2.X;
-                //temp2.Z = -temp2.Z;
-            }
-            if (((Math.Round(Math.Abs(CurrentValue.Value().Z), 1) == 1.5) || Math.Round(Math.Abs(CurrentValue.Value().Z), 1) == 1.6))
-            {
-                //temp2.Y = -temp2.Y;
-                //temp2.X = -temp2.X;
-                //temp2.Z = -temp2.Z;
-            }
-
-            switch (filename)
-            {
-                case "OBJ_trall":
-                    //temp2.X = Util.toRads(0);
-                    //temp2.Y = Util.toRads(0);
-                    //temp2.Z = Util.toRads(0);
-                    //temp2.Z = -temp2.Z;
-                    break;
-                case "OBJ_t0":
-                    //temp2.X = Util.toRads(180);
-                    //temp2.Y = Util.toRads(90);
-                    //temp2.Z = Util.toRads(0);
-                    //temp2.Y -= Util.toRads(90);
-                    //temp2.Y -= Util.toRads(90);
-                    //temp2.X += Util.toRads(90);
-                    //temp2.Z -= Util.toRads(90);
-                    //temp2.Z = -temp2.Z;
-                    temp2.X = -temp2.X;
-                    temp2.Y = -temp2.Y;
-                    temp2next.X = -temp2next.X;
-                    temp2next.Y = -temp2next.Y;
-                    break;
-                case "OBJ_t0 pelvis":
-                    //temp2.X = -temp2.X;//
-                    temp2.Y = -temp2.Y;//
-                    temp2next.Y = -temp2next.Y;
-                    //temp2.Z = -temp2.Z;
-                    break;
-                case "OBJ_t0 footsteps":
-                    //temp2.X = -temp2.X;//
-                    temp2.Y = -temp2.Y;//
-                    temp2next.Y = -temp2next.Y;
-                    //temp2.Z = -temp2.Z;
-                    break;
-                case "OBJ_t0 spine":
-                    //temp2.X = -temp2.X;//
-                    temp2.Y = -temp2.Y;//
-                    temp2next.Y = -temp2next.Y;
-                    //temp2.Z = -temp2.Z;
-                    break;
-                case "OBJ_t0 spine1":
-                    //temp2.X = -temp2.X;//
-                    temp2.Y = -temp2.Y;//
-                    temp2next.Y = -temp2next.Y;
-                    //temp2.Z = -temp2.Z;
-                    break;
-                case "OBJ_t0 neck":
-                    //temp2.X = -temp2.X;//
-                    temp2.Y = -temp2.Y;//
-                    temp2next.Y = -temp2next.Y;
-                    //temp2.Z = -temp2.Z;
-                    break;
-                case "OBJ_t0 head":
-                    //temp2.X = -temp2.X;//
-                    temp2.Y = -temp2.Y;//
-                    temp2next.Y = -temp2next.Y;
-                    //temp2.Z = -temp2.Z;
-                    break;
-                case "OBJ_t0 r clavicle":
-                    //temp2.X = -temp2.X;//
-                    temp2.Y = -temp2.Y;//
-                    temp2next.Y = -temp2next.Y;
-                    //temp2.Z = -temp2.Z;
-                    break;
-                case "OBJ_t0 l clavicle":
-                    //temp2.X = -temp2.X;
-                    temp2.Y = -temp2.Y;//
-                    temp2next.Y = -temp2next.Y;
-                    //temp2.Z = -temp2.Z;//
-                    break;
-                case "OBJ_t0 r upperarm":
-                    //temp2.X = -temp2.X;//
-                    temp2.Y = -temp2.Y;//
-                    temp2next.Y = -temp2next.Y;
-                    //temp2.Z = -temp2.Z;
-                    break;
-                case "OBJ_t0 l upperarm":
-                    //temp2.X = -temp2.X;
-                    temp2.Y = -temp2.Y;//
-                    temp2next.Y = -temp2next.Y;
-                    //temp2.Z = -temp2.Z;//
-                    break;
-                case "OBJ_t0 r forearm":
-                    //temp2.X = -temp2.X;//
-                    //temp2.X -= Util.toRads(45);
-                    temp2.Y = -temp2.Y;//
-                    temp2next.Y = -temp2next.Y;
-                    //temp2.Z = -temp2.Z;
-                    break;
-                case "OBJ_t0 l forearm":
-                    //temp2.X = -temp2.X;
-                    temp2.Y = -temp2.Y;//
-                    temp2next.Y = -temp2next.Y;
-                    //temp2.Z = -temp2.Z;//
-                    break;
-                case "OBJ_t0 r hand":
-                    //temp2.X = -temp2.X;//
-                    temp2.Y = -temp2.Y;//
-                    temp2next.Y = -temp2next.Y;
-                    //temp2.Z = -temp2.Z;
-                    break;
-                case "OBJ_t0 l hand":
-                    //temp2.X = -temp2.X;
-                    temp2.Y = -temp2.Y;//
-                    temp2next.Y = -temp2next.Y;
-                    //temp2.Z = -temp2.Z;//
-                    break;
-                case "OBJ_t0 r finger0":
-                    //temp2.X = -temp2.X;//
-                    temp2.Y = -temp2.Y;//
-                    temp2next.Y = -temp2next.Y;
-                    //temp2.Z = -temp2.Z;
-                    break;
-                case "OBJ_t0 l finger0":
-                    //temp2.X = -temp2.X;
-                    temp2.Y = -temp2.Y;//
-                    temp2next.Y = -temp2next.Y;
-                    //temp2.Z = -temp2.Z;//
-                    break;
-                case "OBJ_t0 r thigh":
-                    temp2.Y = -temp2.Y;
-                    temp2next.Y = -temp2next.Y;
-                    //temp2.X = -temp2.X;
-                    //temp2.Z = -temp2.Z;
-                    break;
-                case "OBJ_t0 l thigh":
-                    //temp2.Z = -temp2.Z;
-                    //temp2.X = -temp2.X;
-                    temp2.Y = -temp2.Y;
-                    temp2next.Y = -temp2next.Y;
-                    break;
-                case "OBJ_t0 r calf":
-                    temp2.Y = -temp2.Y;
-                    temp2next.Y = -temp2next.Y;
-                    //temp2.X = -temp2.X;
-                    //temp2.Z = -temp2.Z;
-                    break;
-                case "OBJ_t0 l calf":
-                    //temp2.Z = -temp2.Z;
-                    ////temp2.X = -temp2.X;
-                    temp2.Y = -temp2.Y;
-                    temp2next.Y = -temp2next.Y;
-                    break;
-                case "OBJ_t0 r foot":
-                    temp2.Y = -temp2.Y;
-                    temp2next.Y = -temp2next.Y;
-                    //temp2.X = -temp2.X;
-                    //temp2.Z = -temp2.Z;
-                    break;
-                case "OBJ_t0 l foot":
-                    //temp2.Z = -temp2.Z;
-                    //temp2.X = -temp2.X;
-                    temp2.Y = -temp2.Y;
-                    temp2next.Y = -temp2next.Y;
-                    break;
-                case "OBJ_t0 r belt1":
-                    temp2.Y = -temp2.Y;
-                    temp2next.Y = -temp2next.Y;
-                    break;
-                case "OBJ_t0 l belt1":
-                    temp2.Y = -temp2.Y;
-                    temp2next.Y = -temp2next.Y;
-                    break;
-
-            }
+            Vector3 animFrameNext = new Vector3(1, 1, 1);
+            animFrameNext.X = NextValue.Value().X;
+            animFrameNext.Y = NextValue.Value().Y;
+            animFrameNext.Z = NextValue.Value().Z;
 
             float range;
             if (CurrentValue.GetFrameCount() - CurrentValue.FrameNumber() == 0)
@@ -1208,14 +1015,14 @@ public partial class CCSAnime : CCSBaseObject
             //return CurrentValue.Value();
             if (KeyCount == 0)
             {
-                return temp;
+                return singleFrame;
             }
             //else
             //{
             //return CurrentValue.Value();
             //    return temp2;
             //}
-            return Vector3.Lerp(temp2, temp2next, range * percent);
+            return Vector3.Lerp(animFrameCurrent, animFrameNext, range * percent);
 
         }
     }
