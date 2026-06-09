@@ -935,7 +935,7 @@ public partial class CCSAnime : CCSBaseObject
                         {
                             //kill duplicate keyframe...
                             //TODO: Vec3Rotation_Track: Properly handle duplicate keyframes
-                            //Keys.Remove(lastKeyframe);
+                            Keys.Remove(lastKeyframe);
                         }
                     }
 
@@ -1069,7 +1069,7 @@ public partial class CCSAnime : CCSBaseObject
                         {
                             //kill duplicate keyframe...
                             //TODO: Vec4Key_Rotation: Properly handle duplicate keyframes
-                            //Keys.Remove(lastKeyframe);
+                            Keys.Remove(lastKeyframe);
                         }
                     }
                     if (Keys.Count > 0)
@@ -1145,7 +1145,7 @@ public partial class CCSAnime : CCSBaseObject
                         {
                             //kill duplicate keyframe...
                             //TODO: Vec3Position_Track: Properly handle duplicate keyframes
-                            //Keys.Remove(lastKeyframe);
+                            Keys.Remove(lastKeyframe);
                         }
                     }
                     if (Keys.Count > 0)
@@ -1165,7 +1165,10 @@ public partial class CCSAnime : CCSBaseObject
         {
             //Placeholder
             //TODO: Vec3Position_Track::GetInterpolatedValue();
-            //if (KeyCount == 0) return FixedValue.Value();
+            if (KeyCount == 0)
+            {
+                return FixedValue.Value();
+            }
 
             if (frameNumber == 0)
             {
@@ -1191,45 +1194,17 @@ public partial class CCSAnime : CCSBaseObject
             }
             var NextValue = GetValue(NextKey);
 
-            Vector3 temp = new Vector3(1, 1, 1);
-            temp.X = CurrentValue.Value().X;
-            temp.Y = CurrentValue.Value().Y;
-            temp.Z = CurrentValue.Value().Z;
-            if (((Math.Abs(rotation.Z) > 2.85 && Math.Abs(rotation.Z) < 3.15) &&
-            (int)Math.Abs(rotation.X) == 1) ||
-            ((int)Math.Abs(rotation.Z) == 2 && (int)Math.Abs(rotation.X) == 1))
-            {
-                //temp.X = -temp.X;
-                //temp.Y = -temp.Y;
-            }
+            Vector3 posCurrentValue = new Vector3(1, 1, 1);
+            posCurrentValue.X = CurrentValue.Value().X;
+            posCurrentValue.Y = CurrentValue.Value().Y;
+            posCurrentValue.Z = CurrentValue.Value().Z;
 
-            Vector3 temp2 = new Vector3(1, 1, 1);
-            temp2.X = CurrentValue.Value().X;
-            temp2.Y = CurrentValue.Value().Y;
-            temp2.Z = CurrentValue.Value().Z;
-            if (((Math.Abs(rotation.Z) > 2.85 && Math.Abs(rotation.Z) < 3.15) &&
-            (int)Math.Abs(rotation.X) == 1) ||
-            ((int)Math.Abs(rotation.Z) == 2 && (int)Math.Abs(rotation.X) == 1))
-            {
-                //temp2.Y = -temp2.Y;
-                //temp2.X = -temp2.X;
-                //temp2.Z = -temp2.Z;
-            }
-            if (((Math.Round(Math.Abs(rotation.Z), 1) == 1.5) || Math.Round(Math.Abs(rotation.Z), 1) == 1.6))
-            {
-                //temp2.X = -temp2.X;
-                //temp2.Y = -temp2.Y;
-                //temp2.Z = -temp2.Z;
-            }
 
-            switch (filename)
-            {
-                case "OBJ_trall":
-                    //temp2.X = 0;
-                    //temp2.Y = 0;
-                    //temp2.Z = 0;
-                    break;
-            }
+            Vector3 posNextValue = new Vector3(1, 1, 1);
+            posNextValue.X = NextValue.Value().X;
+            posNextValue.Y = NextValue.Value().Y;
+            posNextValue.Z = NextValue.Value().Z;
+
 
             float range = 1.0f / (CurrentValue.GetFrameCount() - CurrentValue.FrameNumber());
             int percent = frameNumber - CurrentValue.FrameNumber();
@@ -1237,19 +1212,7 @@ public partial class CCSAnime : CCSBaseObject
             //return Util.V3Slerp(range * percent, CurrentValue.Value(), NextValue.Value());
 
             //TODO: Fix vector3 slerping
-            //return Vector3.Lerp(CurrentValue.Value(), NextValue.Value(), range * percent);
-
-            if (KeyCount == 0)
-            {
-                return temp;
-            }
-            else
-            {
-                //return CurrentValue.Value();
-                return temp2;
-            }
-            //return Vector3.Lerp(temp, temp2, range * percent);
-            //return CurrentValue.Value();
+            return Vector3.Lerp(posCurrentValue, posNextValue, range * percent);
         }
     }
 
@@ -1295,7 +1258,7 @@ public partial class CCSAnime : CCSBaseObject
                         {
                             //kill duplicate keyframe...
                             //TODO: Vec3Scale_Track: Properly handle duplicate keyframes
-                            //Keys.Remove(lastKeyframe);
+                            Keys.Remove(lastKeyframe);
                         }
                     }
 
@@ -1314,7 +1277,7 @@ public partial class CCSAnime : CCSBaseObject
 
         public Vector3 GetInterpolatedValue(int frameNumber, Vector3 position, Vector3 rotation, string filename)
         {
-            //if (KeyCount == 0) return FixedValue.Value();
+            if (KeyCount == 0) return FixedValue.Value();
 
             if (frameNumber == 0)
             {
@@ -1339,125 +1302,22 @@ public partial class CCSAnime : CCSBaseObject
             }
             var NextValue = GetValue(NextKey);
 
-            Vector3 temp = new Vector3(1, 1, 1);
-            temp.X = CurrentValue.Value().X;
-            temp.Y = CurrentValue.Value().Y;
-            temp.Z = CurrentValue.Value().Z;
-            if (((Math.Abs(temp.Z) > 2.85 && Math.Abs(temp.Z) < 3.15) &&
-            (int)Math.Abs(temp.X) == 1) ||
-            ((int)Math.Abs(temp.Z) == 2 && (int)Math.Abs(temp.X) == 1))
-            {
-                temp.Y = -temp.Y;
-                //temp.X = -temp.X;
-            }
-            if (((Math.Round(Math.Abs(rotation.Z), 1) == 1.5) || Math.Round(Math.Abs(rotation.Z), 1) == 1.6) && filename.Contains("OBJ_w"))
-            {
-                temp.Y = -temp.Y;
-                //temp.X = -temp.X;
-            }
+            Vector3 sclCurrentFrame = new Vector3(1, 1, 1);
+            sclCurrentFrame.X = CurrentValue.Value().X;
+            sclCurrentFrame.Y = CurrentValue.Value().Y;
+            sclCurrentFrame.Z = CurrentValue.Value().Z;
 
-            Vector3 temp2 = Vector3.Zero;
-            temp2.X = CurrentValue.Value().X;
-            temp2.Y = CurrentValue.Value().Y;
-            temp2.Z = CurrentValue.Value().Z;
-            if (((Math.Abs(rotation.Z) > 2.85 && Math.Abs(rotation.Z) < 3.15) &&
-            (int)Math.Abs(rotation.X) == 1) ||
-            ((int)Math.Abs(rotation.Z) == 2 && (int)Math.Abs(rotation.X) == 1))
-            {
-                //temp2.Z = -temp2.Z;
-                //temp2.Y = -temp2.Y;
-                //temp2.X = -temp2.X;
-            }
-            if (((Math.Round(Math.Abs(rotation.Z), 1) == 1.5) || Math.Round(Math.Abs(rotation.Z), 1) == 1.6))
-            {
-                //temp2.Z = -temp2.Z;
-                //temp2.Y = -temp2.Y;
-                //temp2.X = -temp2.X;
-            }
-
-            switch (filename)
-            {
-                case "OBJ_t0 r thigh":
-                    //temp2.Y = -temp2.Y;
-                    //temp2.X = -temp2.X;
-                    //temp2.Z = -temp2.Z;
-                    break;
-                case "OBJ_t0 l thigh":
-                    //temp2.Z = -temp2.Z;
-                    //temp2.X = -temp2.X;
-                    //temp2.Y = -temp2.Y;
-                    break;
-                case "OBJ_t0 r clavicle":
-                    //temp2.X = -temp2.X;/**/
-                    //temp2.Y = -temp2.Y;/**/
-                    //temp2.Z = -temp2.Z;
-                    //temp.X += Util.toRads(90f);
-                    break;
-                case "OBJ_t0 l clavicle":
-                    //temp2.X = -temp2.X;
-                    //temp2.Y = -temp2.Y;/**/
-                    //temp2.Z = -temp2.Z;/**/
-                    //temp2.X += Util.toRads(90f);
-                    break;
-                case "OBJ_t0 r upperarm":
-                    //temp2.X = -temp2.X;/**/
-                    //temp2.Y = -temp2.Y;/**/
-                    //temp2.Z = -temp2.Z;
-                    //temp.X += Util.toRads(90f);
-                    break;
-                case "OBJ_t0 l upperarm":
-                    //temp2.X = -temp2.X;
-                    //temp2.Y = -temp2.Y;/**/
-                    //temp2.Z = -temp2.Z;/**/
-                    //temp2.X += Util.toRads(90f);
-                    break;
-                case "OBJ_t0 r forearm":
-                    //temp2.X = -temp2.X;/**/
-                    //temp2.Y = -temp2.Y;/**/
-                    //temp2.Z = -temp2.Z;
-                    //temp.X += Util.toRads(90f);
-                    break;
-                case "OBJ_t0 l forearm":
-                    //temp2.X = -temp2.X;
-                    //temp2.Y = -temp2.Y;/**/
-                    //temp2.Z = -temp2.Z;/**/
-                    //temp2.X += Util.toRads(90f);
-                    break;
-                case "OBJ_t0 r hand":
-                    //temp2.X = -temp2.X;/**/
-                    //temp2.Y = -temp2.Y;/**/
-                    //temp2.Z = -temp2.Z;
-                    //temp.X += Util.toRads(90f);
-                    break;
-                case "OBJ_t0 l hand":
-                    //temp2.X = -temp2.X;
-                    //temp2.Y = -temp2.Y;/**/
-                    //temp2.Z = -temp2.Z;/**/
-                    //temp2.X += Util.toRads(90f);
-                    break;
-                case "OBJ_t0 spine 1":
-                    //temp2.X = -temp2.X;
-                    //temp2.Y = -temp2.Y;/**/
-                    //temp2.Z = -temp2.Z;/**/
-                    //temp2.X += Util.toRads(90f);
-                    break;
-            }
+            Vector3 sclNextFrame = Vector3.Zero;
+            sclNextFrame.X = NextValue.Value().X;
+            sclNextFrame.Y = NextValue.Value().Y;
+            sclNextFrame.Z = NextValue.Value().Z;
 
             float range = 1.0f / (CurrentValue.GetFrameCount() - CurrentValue.FrameNumber());
             int percent = frameNumber - CurrentValue.FrameNumber();
 
             //return CurrentValue.Value();
             //return Vector3.Lerp(CurrentValue.Value(), NextValue.Value(), range * percent);
-            //return Vector3.Lerp(temp, temp2, range * percent);
-            if (Keys.Count == 1)
-            {
-                return temp;
-            }
-            else
-            {
-                //return CurrentValue.Value();
-                return temp2;
-            }
+            return Vector3.Lerp(sclCurrentFrame, sclNextFrame, range * percent);
         }
     }
 
